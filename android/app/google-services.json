@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53676623144",
+    "project_id": "loginscreen-3abad",
+    "storage_bucket": "loginscreen-3abad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53676623144:android:29c94aa4b1c17ef247bc1d",
+        "android_client_info": {
+          "package_name": "com.example.loginscreen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpINlAa-khzhVQmwgS0NgxW7QxHamWMLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
