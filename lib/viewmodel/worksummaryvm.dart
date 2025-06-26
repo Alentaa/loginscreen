@@ -8,7 +8,7 @@ class WorkSummaryViewModel extends ChangeNotifier {
   List<WorkSummaryModel> get summaryItems => _summaryItems;
 
   WorkSummaryViewModel() {
-    _loadData(); // Simulate fetching
+    _loadData(); 
   }
 
   void _loadData() {

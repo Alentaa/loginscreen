@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/widgets/attendance_calender.dart';
 import 'package:loginscreen/widgets/custompiechart.dart';
 import 'package:loginscreen/widgets/day_details.dart';
@@ -16,6 +17,7 @@ class AttendanceScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AttendanceViewModel(),
       child: Scaffold(
+        backgroundColor:AppColors.white,
         appBar: AppBar(
           title: const Text('Attendance Calendar'),
           centerTitle: true,

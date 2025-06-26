@@ -48,6 +48,7 @@ class _LeavesFormBody extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 21.sp,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black87,
                             ),
                           ),
                           SizedBox(height: 3.h),
@@ -84,25 +85,18 @@ class _LeavesFormBody extends StatelessWidget {
                             spacing: 3.w,
                             runSpacing: 3.h,
                             children: [
-                              _buildDropdown(
-                                vm.leaveTypes,
-                                "Leave Type",
-                                vm.leaveType,
-                                (val) => vm.updateLeaveType(val!),
-                                Icons.work_outline,
-                                validator:
-                                    (val) =>
-                                        val == null ? "Select a type" : null,
-                              ),
-                              _buildDropdown(
-                                vm.dayTypes,
-                                "Day Type",
-                                vm.dayType,
-                                (val) => vm.updateDayType(val!),
-                                Icons.timelapse,
-                                validator:
-                                    (val) =>
-                                        val == null ? "Select a type" : null,
+                              Container(
+                                width: 400,
+                                child: _buildDropdown(
+                                  vm.leaveTypes,
+                                  "Choose Type",
+                                  vm.leaveType,
+                                  (val) => vm.updateLeaveType(val!),
+                                  Icons.work_outline,
+                                  validator:
+                                      (val) =>
+                                          val == null ? "Select a type" : null,
+                                ),
                               ),
                             ],
                           ),
@@ -110,18 +104,13 @@ class _LeavesFormBody extends StatelessWidget {
 
                           _buildLabel("Reason"),
                           TextFormField(
-                            // controller: vm.reasonController,
-                            // maxLines: 4,
-                            // validator:
-                            //     (val) =>
-                            //         val == null || val.trim().isEmpty
-                            //             ? "Please enter a reason"
-                            //             : null,
                             decoration: InputDecoration(
                               hintText: "Text area",
+                              hintStyle: TextStyle(color: Colors.grey),
                               border: const OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(2.h),
+                              contentPadding: EdgeInsets.all(7.h),
                             ),
+                            style: TextStyle(color: Colors.grey[800]),
                           ),
                           SizedBox(height: 2.h),
 
@@ -129,11 +118,16 @@ class _LeavesFormBody extends StatelessWidget {
                           TextFormField(
                             readOnly: true,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.attachment),
+                              prefixIcon: const Icon(
+                                Icons.attachment,
+                                color: Colors.grey,
+                              ),
                               hintText: "Attachment (Optional)",
+                              hintStyle: TextStyle(color: Colors.grey),
                               border: const OutlineInputBorder(),
                               contentPadding: EdgeInsets.all(2.h),
                             ),
+                            style: TextStyle(color: Colors.grey[800]),
                           ),
                           SizedBox(height: 3.h),
 
@@ -184,7 +178,14 @@ class _LeavesFormBody extends StatelessWidget {
   }
 
   Widget _buildLabel(String text) {
-    return Text(text, style: TextStyle(fontSize: 17.sp));
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 17.sp,
+        color: Colors.grey[700],
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 
   Widget _buildReadonlyField(String value, IconData icon) {
@@ -192,10 +193,12 @@ class _LeavesFormBody extends StatelessWidget {
       initialValue: value,
       readOnly: true,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon),
+        prefixIcon: Icon(icon, color: Colors.grey),
+        hintStyle: TextStyle(color: Colors.grey),
         border: const OutlineInputBorder(),
         contentPadding: EdgeInsets.all(2.h),
       ),
+      style: TextStyle(color: Colors.grey[800]),
     );
   }
 
@@ -207,27 +210,31 @@ class _LeavesFormBody extends StatelessWidget {
   ) {
     final date = isFrom ? vm.fromDate : vm.toDate;
     return SizedBox(
-      width: 42.w,
+      width: 43.w,
+      height: 80,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 16.sp)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+          ),
           SizedBox(height: 1.h),
           InkWell(
             onTap: () => vm.pickDate(context, isFrom),
             child: InputDecorator(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.calendar_today),
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.calendar_today, color: Colors.grey),
                 border: OutlineInputBorder(),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
+                padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 3.w),
                 child: Text(
                   date != null
                       ? "${date.day}/${date.month}/${date.year}"
                       : "$label Date",
                   style: TextStyle(
-                    color: date != null ? Colors.black : Colors.grey,
+                    color: date != null ? Colors.grey[800] : Colors.grey,
                     fontSize: 16.sp,
                   ),
                 ),
@@ -252,28 +259,38 @@ class _LeavesFormBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 16.sp)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+          ),
           SizedBox(height: 1.h),
           DropdownButtonFormField<String>(
             value: value,
             items:
                 items
                     .map(
-                      (type) =>
-                          DropdownMenuItem(value: type, child: Text(type)),
+                      (type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(
+                          type,
+                          style: TextStyle(color: Colors.grey[800]),
+                        ),
+                      ),
                     )
                     .toList(),
             onChanged: onChanged,
             validator: validator,
             decoration: InputDecoration(
-              prefixIcon: Icon(icon),
+              prefixIcon: Icon(icon, color: Colors.grey),
               hintText: " $label",
+              hintStyle: TextStyle(color: Colors.grey),
               border: const OutlineInputBorder(),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 3.w,
                 vertical: 2.h,
               ),
             ),
+            style: TextStyle(color: Colors.grey[800]),
           ),
         ],
       ),

@@ -34,7 +34,6 @@ class _SignupPageState extends State<SignupPage> {
         return Scaffold(
           body: Stack(
             children: [
-              
               Positioned(
                 top: 0,
                 left: 0,
@@ -45,7 +44,7 @@ class _SignupPageState extends State<SignupPage> {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(120),
                     ),
-                    color: Color(0xFF2196F3), 
+                    color: Color(0xFF2196F3),
                   ),
                 ),
               ),
@@ -63,7 +62,6 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
 
-              
               Padding(
                 padding: EdgeInsets.all(4.w),
                 child: SingleChildScrollView(
@@ -158,25 +156,22 @@ class _SignupPageState extends State<SignupPage> {
                                           _nameController.text.trim(),
                                         );
                                         if (user != null) {
-                                          showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder:
-                                                (context) => AlertDialog(
-                                                  title: const Text('Success'),
-                                                  content: const Text(
-                                                    'Signup successful!',
-                                                  ),
-                                                ),
-                                          );
-
-                                         
-                                          await Future.delayed(
-                                            const Duration(seconds: 2),
-                                          );
-                                          Navigator.pop(
+                                          ScaffoldMessenger.of(
                                             context,
-                                          ); 
+                                          ).showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Signup sucessful!',
+                                              ),
+                                              backgroundColor: AppColors.green,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              duration: Duration(seconds: 1),
+                                            ),
+                                          );
+                                          await Future.delayed(
+                                            const Duration(seconds: 1),
+                                          );
                                           Navigator.pushReplacementNamed(
                                             context,
                                             '/login',

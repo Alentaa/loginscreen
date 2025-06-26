@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:loginscreen/view/view/forgotpassword_page.dart';
+import 'package:loginscreen/view/view/holidayScreen.dart';
 import 'package:loginscreen/view/view/login_page.dart';
+import 'package:loginscreen/view/view/payslipscreen.dart';
 import 'package:loginscreen/view/view/signup_page.dart';
 import 'package:loginscreen/view/view/homescreen.dart';
 import 'package:loginscreen/viewmodel/auth_service.dart';
@@ -61,6 +63,8 @@ class MyApp extends StatelessWidget {
               '/signup': (context) => SignupPage(),
               '/forgot-password': (context) => ForgotPasswordPage(),
               '/home': (context) => HomeScreen(),
+              '/holidayscreen':(context) => HolidayScreen(),
+              '/payslip':(context) => PayslipScreen(),
             },
           ),
         );

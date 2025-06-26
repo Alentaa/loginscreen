@@ -87,7 +87,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isLoading ? 'Hemant Rangarajan' : userName,
+                          isLoading ? 'User' : userName,
                           style: TextStyle(
                             fontSize: 17.sp,
                             fontWeight: FontWeight.bold,

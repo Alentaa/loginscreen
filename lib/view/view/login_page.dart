@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
         return Scaffold(
           body: Stack(
             children: [
-            
               Positioned(
                 top: 0,
                 left: 0,
@@ -58,7 +57,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6.w),
                 child: SingleChildScrollView(
@@ -86,110 +84,84 @@ class _LoginPageState extends State<LoginPage> {
                             _buildTextField(
                               controller: _emailController,
                               label: 'Email or Mobile Number',
-                              validator:
-                                  (value) =>
-                                      value == null || value.isEmpty
-                                          ? 'Please enter your email'
-                                          : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Please enter your email'
+                                      : null,
                             ),
                             SizedBox(height: 2.5.h),
                             _buildTextField(
                               controller: _passwordController,
                               label: 'Password / OTP',
                               obscureText: true,
-                              validator:
-                                  (value) =>
-                                      value == null || value.isEmpty
-                                          ? 'Please enter your password'
-                                          : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Please enter your password'
+                                      : null,
                             ),
                             SizedBox(height: 4.h),
                             loginVM.isLoading
                                 ? const CircularProgressIndicator()
                                 : SizedBox(
-                                  width: 100.w,
-                                  height: 6.h,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF2196F3),
-                                    ),
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        final user = await loginVM.login(
-                                          _emailController.text.trim(),
-                                          _passwordController.text.trim(),
-                                        );
-                                        if (user != null) {
-                                          showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder:
-                                                (context) => AlertDialog(
-                                                  title: Text(
-                                                    'Login Successful',
-                                                    style: TextStyle(
-                                                      fontSize: 20.sp,
-                                                      color:
-                                                          const Color.fromARGB(255, 9, 9, 9),
-                                                    ),
-                                                  ),
-                                                  content: Text(
-                                                    'Welcome!',
-                                                    style: TextStyle(
-                                                      fontSize: 17.sp,
-                                                    ),
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(
-                                                          context,
-                                                        ).pop();
-                                                        Navigator.pushReplacementNamed(
-                                                          context,
-                                                          '/home',
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                        'OK',
-                                                        style: TextStyle(
-                                                          fontSize: 16.sp,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                    width: 100.w,
+                                    height: 6.h,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xFF2196F3),
+                                      ),
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          final user = await loginVM.login(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                          );
+                                          if (user != null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Login Successful',
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp),
                                                 ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Login failed'),
-                                            ),
-                                          );
+                                                backgroundColor: Colors.green,
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+
+                                            await Future.delayed(
+                                                const Duration(seconds: 2));
+                                            Navigator.pushReplacementNamed(
+                                                context, '/home');
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content:
+                                                    Text('Login failed'),
+                                              ),
+                                            );
+                                          }
                                         }
-                                      }
-                                    },
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        fontSize: 17.sp,
-                                        color: AppColors.blue,
+                                      },
+                                      child: Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          fontSize: 17.sp,
+                                          color: AppColors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
                             SizedBox(height: 2.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
-                                  onPressed:
-                                      () => Navigator.pushNamed(
-                                        context,
-                                        '/forgot-password',
-                                      ),
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, '/forgot-password'),
                                   child: Text(
                                     'Forgot Password',
                                     style: TextStyle(
@@ -199,11 +171,8 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed:
-                                      () => Navigator.pushNamed(
-                                        context,
-                                        '/signup',
-                                      ),
+                                  onPressed: () =>
+                                      Navigator.pushNamed(context, '/signup'),
                                   child: Text(
                                     'Sign up',
                                     style: TextStyle(

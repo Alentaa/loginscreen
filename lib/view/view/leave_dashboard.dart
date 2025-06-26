@@ -15,24 +15,26 @@ class LeaveDashboardScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => LeaveDashboardViewModel(),
       child: Consumer<LeaveDashboardViewModel>(
-        builder: (context, viewModel, _) => Scaffold(
-          backgroundColor: const Color(0xFFF4F6F8),
-          body: SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context, viewModel),
-                const SizedBox(height: 10),
-                _buildTabBar(viewModel),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: viewModel.selectedTabIndex == 0
-                      ? _buildDashboardContent(viewModel)
-                      : const LeavesPage(),
+        builder:
+            (context, viewModel, _) => Scaffold(
+              backgroundColor: const Color(0xFFF4F6F8),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    _buildHeader(context, viewModel),
+                    const SizedBox(height: 10),
+                    _buildTabBar(viewModel),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child:
+                          viewModel.selectedTabIndex == 0
+                              ? _buildDashboardContent(viewModel)
+                              : const LeavesPage(),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
       ),
     );
   }
@@ -44,10 +46,11 @@ class LeaveDashboardScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const HomeScreen()),
-            ),
+            onTap:
+                () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                ),
             child: Image.asset('asset/ziya academy logo.jpg', height: 50),
           ),
           const SizedBox(width: 8),
@@ -63,25 +66,36 @@ class LeaveDashboardScreen extends StatelessWidget {
                     hintText: 'Search',
                     filled: true,
                     fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
                 if (vm.showSuggestions)
                   Container(
                     padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
                     constraints: const BoxConstraints(maxHeight: 150),
                     child: ListView(
                       shrinkWrap: true,
-                      children: vm.allSuggestions
-                          .where((item) => item.toLowerCase().contains(vm.searchController.text.toLowerCase()))
-                          .map(
-                            (s) => ListTile(
-                              title: Text(s),
-                              onTap: () => vm.onSuggestionTap(s),
-                            ),
-                          )
-                          .toList(),
+                      children:
+                          vm.allSuggestions
+                              .where(
+                                (item) => item.toLowerCase().contains(
+                                  vm.searchController.text.toLowerCase(),
+                                ),
+                              )
+                              .map(
+                                (s) => ListTile(
+                                  title: Text(s),
+                                  onTap: () => vm.onSuggestionTap(s),
+                                ),
+                              )
+                              .toList(),
                     ),
                   ),
               ],
@@ -90,7 +104,10 @@ class LeaveDashboardScreen extends StatelessWidget {
           const SizedBox(width: 10),
           const Icon(Icons.notifications_none, color: Colors.blue),
           const SizedBox(width: 10),
-          const CircleAvatar(radius: 18, backgroundImage: AssetImage('asset/profile.jpeg')),
+          const CircleAvatar(
+            radius: 18,
+            backgroundImage: AssetImage('asset/profile.jpeg'),
+          ),
         ],
       ),
     );
@@ -109,7 +126,12 @@ class LeaveDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _tabButton(String title, int index, IconData icon, LeaveDashboardViewModel vm) {
+  Widget _tabButton(
+    String title,
+    int index,
+    IconData icon,
+    LeaveDashboardViewModel vm,
+  ) {
     final isSelected = vm.selectedTabIndex == index;
     return GestureDetector(
       onTap: () => vm.changeTab(index),
@@ -117,13 +139,19 @@ class LeaveDashboardScreen extends StatelessWidget {
         children: [
           Icon(icon, color: isSelected ? Colors.blue : Colors.black54),
           const SizedBox(width: 6),
-          Text(title, style: TextStyle(color: isSelected ? Colors.blue : Colors.black54)),
+          Text(
+            title,
+            style: TextStyle(color: isSelected ? Colors.blue : Colors.black54),
+          ),
           if (isSelected)
             Container(
               margin: const EdgeInsets.only(left: 6),
               height: 3,
               width: 24,
-              decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
         ],
       ),
@@ -134,33 +162,104 @@ class LeaveDashboardScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Row(children: vm.leaveCards.take(2).map((card) => LeaveCard(title: card.title, value: card.value, subtitle: card.subtitle, icon: card.icon)).toList()),
+        Row(
+          children:
+              vm.leaveCards
+                  .take(2)
+                  .map(
+                    (card) => LeaveCard(
+                      title: card.title,
+                      value: card.value,
+                      subtitle: card.subtitle,
+                      icon: card.icon,
+                    ),
+                  )
+                  .toList(),
+        ),
         const SizedBox(height: 10),
-        Row(children: vm.leaveCards.skip(2).map((card) => LeaveCard(title: card.title, value: card.value, subtitle: card.subtitle, icon: card.icon)).toList()),
+        Row(
+          children:
+              vm.leaveCards
+                  .skip(2)
+                  .map(
+                    (card) => LeaveCard(
+                      title: card.title,
+                      value: card.value,
+                      subtitle: card.subtitle,
+                      icon: card.icon,
+                    ),
+                  )
+                  .toList(),
+        ),
         const SizedBox(height: 24),
-        const Text("Leave Overview", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+        const Text(
+          "Leave Overview",
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 4),
-        const Text("Your leave distribution for the current year", style: TextStyle(color: Colors.grey)),
+        const Text(
+          "Your leave distribution for the current year",
+          style: TextStyle(color: Colors.grey),
+        ),
         const SizedBox(height: 8),
         const SizedBox(height: 150, child: LeaveBarChart()),
+        Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text('Leave days taken', style: TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
         const Divider(thickness: 1),
-        const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text("Total days"), Text("Remaining")]),
-        const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text("20"), Text("29")]),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [Text("Total days"), Text("Remaining")],
+        ),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [Text("20"), Text("29")],
+        ),
         const Divider(thickness: 1),
         const SizedBox(height: 12),
-        const Text("Upcoming Leave", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        const Text("Your scheduled time off", style: TextStyle(color: Colors.black87)),
+        const Text(
+          "Upcoming Leave",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const Text(
+          "Your scheduled time off",
+          style: TextStyle(color: Colors.black87),
+        ),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.grey.shade300)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("April 22, 2025 to Apr 24, 2025 (3 days)"),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(20)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: const Text("Pending", style: TextStyle(fontSize: 12)),
               ),
             ],

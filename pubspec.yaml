@@ -45,6 +45,11 @@ dependencies:
   shared_preferences: ^2.5.3
   table_calendar: ^3.2.0
   pie_chart: ^5.4.0
+  pdf: ^3.11.3
+  path_provider: ^2.1.5
+  open_file: ^3.5.10
+  printing: ^5.14.2
+  file_picker: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +77,8 @@ flutter:
   assets:
     - asset/profile.jpeg
     - asset/ziya academy logo.jpg
+    - asset/logo withoutbackground.jpg
+    - asset/logo_withoutbackground-removebg-preview.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

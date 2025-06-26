@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/view/view/punch_access.dart';
 
 class CenterYourFacePage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _CenterYourFacePageState extends State<CenterYourFacePage> {
 
             const Spacer(flex: 2),
 
-            /// Bottom Icon Row
+           
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
               decoration: const BoxDecoration(
@@ -68,13 +69,13 @@ class _CenterYourFacePageState extends State<CenterYourFacePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  /// Camera icon
+                  
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 24,
                     child: const Icon(
                       Icons.photo_camera_outlined,
-                      color: Colors.black,
+                      color: AppColors.black,
                     ),
                   ),
                   const SizedBox(width: 30),
@@ -96,10 +97,10 @@ class _CenterYourFacePageState extends State<CenterYourFacePage> {
                       height: 70,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blueAccent,
+                        color: AppColors.lightblue,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black12,
+                            color: AppColors.black,
                             blurRadius: 6,
                             offset: Offset(0, 2),
                           ),
@@ -107,7 +108,7 @@ class _CenterYourFacePageState extends State<CenterYourFacePage> {
                       ),
                       child: const Icon(
                         Icons.check,
-                        color: Colors.white,
+                        color: AppColors.white,
                         size: 40,
                       ),
                     ),
@@ -116,9 +117,9 @@ class _CenterYourFacePageState extends State<CenterYourFacePage> {
 
                  
                   CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     radius: 24,
-                    child: const Icon(Icons.flash_on, color: Colors.black),
+                    child: const Icon(Icons.flash_on, color: AppColors.black),
                   ),
                 ],
               ),
