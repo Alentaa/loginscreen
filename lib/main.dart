@@ -4,14 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:loginscreen/view/view/forgotpassword_page.dart';
 import 'package:loginscreen/view/view/holidayScreen.dart';
 import 'package:loginscreen/view/view/login_page.dart';
-import 'package:loginscreen/view/view/payslipscreen.dart';
 import 'package:loginscreen/view/view/signup_page.dart';
 import 'package:loginscreen/view/view/homescreen.dart';
 import 'package:loginscreen/viewmodel/auth_service.dart';
+import 'package:loginscreen/viewmodel/forgotpassword_viewmodel.dart';
 import 'package:loginscreen/viewmodel/login_viewmodel.dart';
+import 'package:loginscreen/viewmodel/reportsviewmodel.dart';
 import 'package:loginscreen/viewmodel/signup_viewmodel.dart';
 import 'package:loginscreen/viewmodel/checkinprovider.dart';
-import 'package:loginscreen/viewmodel/attendance_viewmodel.dart'; // ✅ Add this import
+import 'package:loginscreen/viewmodel/attendance_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -46,9 +47,10 @@ class MyApp extends StatelessWidget {
             ),
 
             ChangeNotifierProvider<AttendanceViewModel>(
-              // ✅ Add this line
               create: (_) => AttendanceViewModel(),
             ),
+            ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
+            ChangeNotifierProvider(create: (_) => ReportsViewModel()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -63,8 +65,8 @@ class MyApp extends StatelessWidget {
               '/signup': (context) => SignupPage(),
               '/forgot-password': (context) => ForgotPasswordPage(),
               '/home': (context) => HomeScreen(),
-              '/holidayscreen':(context) => HolidayScreen(),
-              '/payslip':(context) => PayslipScreen(),
+              '/holidayscreen': (context) => HolidayScreen(),
+              // '/payslip':(context) => PayslipScreen(),
             },
           ),
         );

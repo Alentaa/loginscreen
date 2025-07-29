@@ -34,7 +34,7 @@ class AttendanceScreen extends StatelessWidget {
                 SizedBox(height: 2.h),
                 const CustomPieChartWidget(),
                 SizedBox(height: 2.h),
-                const DayDetailsCard(),
+                DayDetailsCard(selectedDate: DateTime.now()),
               ],
             ),
           ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loginscreen/constants/app_colors.dart';
+import 'package:loginscreen/view/view/notification.dart';
+import 'package:loginscreen/view/view/payslipscreen.dart';
+import 'package:loginscreen/view/view/profilescreen.dart';
 import 'package:loginscreen/viewmodel/payslipvm.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -17,13 +20,13 @@ Widget buildHeader(BuildContext context) {
             backgroundImage: AssetImage('asset/ziya academy logo.jpg'),
           ),
         ),
-        SizedBox(width: 3.w),
+        SizedBox(width: 2.w),
         Expanded(
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search',
               filled: true,
-              fillColor: Colors.grey.shade200,
+              fillColor: AppColors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
@@ -31,13 +34,31 @@ Widget buildHeader(BuildContext context) {
             ),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.notifications, color: Colors.blue, size: 24.sp),
-          onPressed: () {},
+        const SizedBox(width: 10),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationScreen(),
+              ),
+            );
+          },
+          child: const Icon(Icons.notifications_none, color: Colors.blue),
         ),
-        CircleAvatar(
-          radius: 3.h,
-          backgroundImage: AssetImage('assets/profile.jpg'),
+
+        const SizedBox(width: 10),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileScreen()),
+            );
+          },
+          child: const CircleAvatar(
+            radius: 21,
+            backgroundImage: AssetImage('asset/profile.jpeg'),
+          ),
         ),
       ],
     ),
@@ -101,9 +122,6 @@ Widget buildSubHeaderWithLogo(String month) {
   );
 }
 
-// Employee Summary
-
-
 Widget employeeSummary(PayslipViewModel model) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +134,6 @@ Widget employeeSummary(PayslipViewModel model) {
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // LEFT: Employee details
           Expanded(
             flex: 10,
             child: Column(
@@ -132,7 +149,7 @@ Widget employeeSummary(PayslipViewModel model) {
             ),
           ),
           SizedBox(width: 0.w),
-          // RIGHT: Net Pay box
+
           Expanded(
             flex: 6,
             child: Container(
@@ -146,7 +163,10 @@ Widget employeeSummary(PayslipViewModel model) {
                 children: [
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 2.w,
+                      vertical: 1.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Color(0xFFD3F3D0),
                       borderRadius: BorderRadius.circular(8),
@@ -156,17 +176,27 @@ Widget employeeSummary(PayslipViewModel model) {
                       children: [
                         Text(
                           model.netPay,
-                          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 0.5.h),
                         Text(
                           "Employee Net Pay",
-                          style: TextStyle(fontSize: 14.sp, color: Colors.green),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.green,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Divider(thickness: 0.5, height: 2.h, color: Colors.grey.shade300),
+                  Divider(
+                    thickness: 0.5,
+                    height: 2.h,
+                    color: Colors.grey.shade300,
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 1.w),
                     child: Column(
@@ -186,6 +216,7 @@ Widget employeeSummary(PayslipViewModel model) {
     ],
   );
 }
+
 Widget buildPFandUANRow(PayslipViewModel model) {
   return Padding(
     padding: EdgeInsets.symmetric(),
@@ -223,9 +254,6 @@ Widget buildPFandUANRow(PayslipViewModel model) {
     ),
   );
 }
-
-
-
 
 Widget _detailRow(String title, String value) {
   return Padding(
@@ -436,7 +464,7 @@ Widget downloadButton(PayslipViewModel model) {
     child: InkWell(
       onTap: model.generateAndDownloadPDF,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+        padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.h),
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(12),
@@ -461,15 +489,14 @@ Widget downloadButton(PayslipViewModel model) {
   );
 }
 
-// Monthly Payslip History Table
-Widget monthlyPayslipHistory(PayslipViewModel model) {
+Widget monthlyPayslipHistory(PayslipViewModel model, BuildContext context) {
   final headerStyle = TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold);
   final style = TextStyle(fontSize: 15.sp);
 
   final data = [
-    ['May 2025', '₹45,000', 'Generated', '[Download]'],
-    ['April 2025', '₹43,500', 'Generated', '[Download]'],
-    ['March 2025', '₹41,000', 'Generated', '[Download]'],
+    ['May 2025', '₹45,000', 'Generated', 'Download'],
+    ['April 2025', '₹43,500', 'Generated', 'Download'],
+    ['March 2025', '₹41,000', 'Generated', 'Download'],
   ];
 
   return Column(
@@ -502,15 +529,35 @@ Widget monthlyPayslipHistory(PayslipViewModel model) {
           ),
           ...data.map(
             (row) => TableRow(
-              children:
-                  row
-                      .map(
-                        (cell) => Padding(
-                          padding: EdgeInsets.all(1.h),
-                          child: Text(cell, style: style),
-                        ),
-                      )
-                      .toList(),
+              children: [
+                // Month (clickable)
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PayslipScreen(month: row[0]),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(1.h),
+                    child: Text(
+                      row[0],
+                      style: style.copyWith(color: Colors.blue),
+                    ),
+                  ),
+                ),
+                // Other cells
+                ...row
+                    .sublist(1)
+                    .map(
+                      (cell) => Padding(
+                        padding: EdgeInsets.all(1.h),
+                        child: Text(cell, style: style),
+                      ),
+                    ),
+              ],
             ),
           ),
         ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/view/view/homescreen.dart';
+import 'package:loginscreen/view/view/notification.dart';
+import 'package:loginscreen/view/view/profilescreen.dart';
+import 'package:loginscreen/widgets/customCalendar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Leavestatus extends StatelessWidget {
@@ -19,6 +21,12 @@ class Leavestatus extends StatelessWidget {
     DateTime.utc(2025, 6, 25): 'approved',
   };
 
+  final Map<String, Color> statusColors = {
+    'approved': AppColors.green,
+    'rejected': AppColors.red,
+    'pending': AppColors.orange,
+  };
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
@@ -31,7 +39,17 @@ class Leavestatus extends StatelessWidget {
                 children: [
                   _buildHeader(context),
                   _buildLeaveCards(),
-                  _buildCalendar(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    child: CustomCalendar(
+                      focusedMonth: _focusedDay,
+                      firstDay: DateTime.utc(2025, 6, 1),
+                      lastDay: DateTime.utc(2025, 6, 30),
+                      eventDays: eventDays,
+                      statusColors: statusColors,
+                      headerTitle: "June 2025",
+                    ),
+                  ),
                   _buildLeaveTable(),
                   _buildLeaveOverview(),
                 ],
@@ -70,12 +88,31 @@ class Leavestatus extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 2.w),
-          Icon(Icons.notifications, size: 24.sp),
-          SizedBox(width: 2.w),
-          CircleAvatar(
-            radius: 18,
-            backgroundImage: AssetImage('asset/profile.jpeg'),
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ),
+              );
+            },
+            child: const Icon(Icons.notifications_none, color: Colors.blue),
+          ),
+
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+            child: const CircleAvatar(
+              radius: 18,
+              backgroundImage: AssetImage('asset/profile.jpeg'),
+            ),
           ),
         ],
       ),
@@ -176,90 +213,6 @@ class Leavestatus extends StatelessWidget {
     );
   }
 
-  Widget _buildCalendar() {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          margin: const EdgeInsets.only(bottom: 10),
-          child: const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "June 2025",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        Container(
-          width: 355,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.grey,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: TableCalendar(
-            firstDay: DateTime.utc(2025, 6, 1),
-            lastDay: DateTime.utc(2025, 6, 30),
-            focusedDay: _focusedDay,
-            calendarFormat: CalendarFormat.month,
-            startingDayOfWeek: StartingDayOfWeek.sunday,
-            headerVisible: false,
-            availableGestures: AvailableGestures.none,
-            daysOfWeekStyle: const DaysOfWeekStyle(
-              weekendStyle: TextStyle(color: AppColors.red),
-              weekdayStyle: TextStyle(color: AppColors.black),
-            ),
-            calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, day, _) {
-                if (day.month != 6) return const SizedBox.shrink();
-                final type =
-                    eventDays[DateTime.utc(day.year, day.month, day.day)];
-                if (type == 'approved')
-                  return _buildSquare(day, AppColors.green);
-                if (type == 'rejected') return _buildSquare(day, AppColors.red);
-                if (type == 'pending')
-                  return _buildSquare(day, AppColors.orange);
-                if (type == 'upcoming')
-                  return _buildSquare(day, AppColors.blue);
-                return Center(child: Text('${day.day}'));
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSquare(DateTime day, Color color) {
-    return Center(
-      child: Container(
-        width: 45,
-        height: 45,
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.7),
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(2),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          '${day.day}',
-          style: const TextStyle(
-            color: AppColors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildLeaveTable() {
     return Padding(
       padding: EdgeInsets.all(3.w),
@@ -321,17 +274,14 @@ class Leavestatus extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Divider(thickness: 1),
-          const SizedBox(height: 4),
           const Text(
             "Leave Overview",
             style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 4),
           const Text(
             "Your leave distribution for the current year",
             style: TextStyle(color: AppColors.grey),
           ),
-          const SizedBox(height: 8),
           SizedBox(height: 2.h),
           SizedBox(
             height: 200,
@@ -379,8 +329,8 @@ class Leavestatus extends StatelessWidget {
                   width: 8,
                   height: 8,
                   decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
                     color: Colors.blue,
+                    shape: BoxShape.circle,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -388,7 +338,7 @@ class Leavestatus extends StatelessWidget {
               ],
             ),
           ),
-          Divider(thickness: 1),
+          const Divider(thickness: 1),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text("Total days"), Text("Remaining")],

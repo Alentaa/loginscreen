@@ -66,8 +66,6 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Container(
       padding: const EdgeInsets.all(16),
       width: double.infinity,
@@ -81,7 +79,7 @@ class TaskCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         
+          // Title and % done
           Row(
             children: [
               Expanded(
@@ -106,7 +104,7 @@ class TaskCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          
+          // Status
           Row(
             children: [
               const Text(
@@ -121,12 +119,12 @@ class TaskCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 4),
-          const Text("Assigned date: 12-05-2025"),
-          const Text("Due date: 12-06-2025"),
+          const Text("Start date: 12-05-2025"),
+          const Text("Expected completion: 12-06-2025"),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 18),
 
-        
+          // Priority
           Row(
             children: [
               const Text(
@@ -140,22 +138,9 @@ class TaskCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 12),
-
-      
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 8,
-              backgroundColor: Colors.grey[300],
-              color: Colors.green,
-            ),
-          ),
-
           const SizedBox(height: 16),
 
-          
+          // Action Button
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(

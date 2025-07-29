@@ -10,6 +10,8 @@ class AttendanceViewModel extends ChangeNotifier {
       verification: "Selfie",
       location: "Lat: 13.05, Long: 80.24",
       note: "Worked On UI Bug Fixing",
+      checkInTime: DateTime(2025, 6, 26, 9, 15),
+      checkOutTime: DateTime(2025, 6, 26, 1, 0),
     ),
     AttendanceModel(date: DateTime(2025, 6, 6), status: "late"),
     AttendanceModel(date: DateTime(2025, 6, 9), status: ""),
@@ -63,7 +65,67 @@ class AttendanceViewModel extends ChangeNotifier {
         verification: null,
         location: null,
         note: null,
+        checkInTime: null,
+        checkOutTime: null,
       ),
     );
+  }
+
+  void punchIn(DateTime date, DateTime time) {
+    final index = _records.indexWhere(
+      (e) => e.date.year == date.year &&
+             e.date.month == date.month &&
+             e.date.day == date.day,
+    );
+
+    if (index != -1) {
+      final existing = _records[index];
+      _records[index] = AttendanceModel(
+        date: existing.date,
+        status: existing.status.isEmpty ? "present" : existing.status,
+        mode: existing.mode,
+        verification: existing.verification,
+        location: existing.location,
+        note: existing.note,
+        checkInTime: time,
+        checkOutTime: existing.checkOutTime,
+      );
+    } else {
+      _records.add(AttendanceModel(
+        date: date,
+        status: "present",
+        checkInTime: time,
+      ));
+    }
+    notifyListeners();
+  }
+
+  void punchOut(DateTime date, DateTime time) {
+    final index = _records.indexWhere(
+      (e) => e.date.year == date.year &&
+             e.date.month == date.month &&
+             e.date.day == date.day,
+    );
+
+    if (index != -1) {
+      final existing = _records[index];
+      _records[index] = AttendanceModel(
+        date: existing.date,
+        status: existing.status.isEmpty ? "present" : existing.status,
+        mode: existing.mode,
+        verification: existing.verification,
+        location: existing.location,
+        note: existing.note,
+        checkInTime: existing.checkInTime,
+        checkOutTime: time,
+      );
+    } else {
+      _records.add(AttendanceModel(
+        date: date,
+        status: "present",
+        checkOutTime: time,
+      ));
+    }
+    notifyListeners();
   }
 }

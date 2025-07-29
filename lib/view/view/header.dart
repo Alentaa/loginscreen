@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loginscreen/constants/app_colors.dart';
+import 'package:loginscreen/view/view/notification.dart';
+import 'package:loginscreen/view/view/profilescreen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HeaderWidget extends StatefulWidget {
@@ -45,88 +47,118 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 78.w,
-          child: Stack(
-            children: [
-              Container(
-                width: 74.w,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 12, 58, 123),
-                      Color.fromARGB(255, 7, 79, 10),
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 1.w),
+      child: Row(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 12, 58, 123),
+                        Color.fromARGB(255, 7, 79, 10),
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.horizontal(
+                      right: Radius.circular(7.w),
+                    ),
                   ),
-                  borderRadius: BorderRadius.horizontal(
-                    right: Radius.circular(5.w),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 3.w,
+                    vertical: 1.5.h,
                   ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 1.5.h),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 6.h,
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(1),
-                        child: Image.asset(
-                          'asset/profile.jpeg',
-                          width: 55,
-                          height: 48,
-                          fit: BoxFit.cover,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProfileScreen(),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image.asset(
+                            'asset/profile.jpeg',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 3.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isLoading ? 'User' : userName,
-                          style: TextStyle(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
+                      SizedBox(width: 2.w),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isLoading ? 'User' : userName,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                            Text(
+                              "Full-stack Developer",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "Full-stack Developer",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Positioned(
-                top: 2.h,
-                right: 1.w,
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('asset/ziya academy logo.jpg'),
+                Positioned(
+                  top: 1.h,
+                  right: 0.1.w,
+                  child: CircleAvatar(
+                    radius: 28,
+                    backgroundImage: AssetImage('asset/ziya academy logo.jpg'),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(width: 2.w),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: AppColors.black, blurRadius: 1.w)],
+          SizedBox(width: 1.w),
+          Container(
+            decoration: 
+            BoxDecoration(
+              color: AppColors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.black.withOpacity(0.1),
+                  blurRadius: 0,
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: Icon(Icons.circle_notifications, color: AppColors.blue, size: 13.w),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationScreen(),
+                  ),
+                );
+              },
+            ),
           ),
-          padding: EdgeInsets.all(1.5.w),
-          child: Icon(Icons.notifications_sharp, color: AppColors.blue, size: 6.w),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

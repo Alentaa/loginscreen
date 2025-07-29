@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/viewmodel/leavesPage.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -23,7 +24,7 @@ class _LeavesFormBody extends StatelessWidget {
     final vm = Provider.of<LeaveFormViewModel>(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F8),
+      backgroundColor: AppColors.white,
       resizeToAvoidBottomInset: false,
       body: ResponsiveSizer(
         builder: (context, orientation, screenType) {
@@ -48,7 +49,7 @@ class _LeavesFormBody extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 21.sp,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: AppColors.black,
                             ),
                           ),
                           SizedBox(height: 3.h),
@@ -56,14 +57,14 @@ class _LeavesFormBody extends StatelessWidget {
                           _buildLabel("Employee Name"),
                           _buildReadonlyField(
                             "Employee Name - auto-filled",
-                            Icons.person,
+                            Icons.person_outline,
                           ),
                           SizedBox(height: 2.h),
 
                           _buildLabel("Employee ID"),
                           _buildReadonlyField(
                             "Employee ID - auto-filled",
-                            Icons.badge,
+                            Icons.badge_outlined,
                           ),
                           SizedBox(height: 2.h),
 
@@ -115,20 +116,40 @@ class _LeavesFormBody extends StatelessWidget {
                           SizedBox(height: 2.h),
 
                           _buildLabel("Attachment"),
-                          TextFormField(
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.attachment,
-                                color: Colors.grey,
+                          InkWell(
+                            onTap: () => vm.pickAttachment(),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 2.h,
+                                horizontal: 3.w,
                               ),
-                              hintText: "Attachment (Optional)",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: const OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(2.h),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.attachment, color: Colors.grey),
+                                  SizedBox(width: 2.w),
+                                  Expanded(
+                                    child: Text(
+                                      vm.attachmentFileName ??
+                                          "Choose file (optional)",
+                                      style: TextStyle(
+                                        color:
+                                            vm.attachmentFileName != null
+                                                ? Colors.black87
+                                                : Colors.grey,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            style: TextStyle(color: Colors.grey[800]),
                           ),
+
                           SizedBox(height: 3.h),
 
                           ElevatedButton(
@@ -182,7 +203,7 @@ class _LeavesFormBody extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 17.sp,
-        color: Colors.grey[700],
+        color: const Color.fromARGB(255, 92, 90, 90),
         fontWeight: FontWeight.w500,
       ),
     );
@@ -198,7 +219,7 @@ class _LeavesFormBody extends StatelessWidget {
         border: const OutlineInputBorder(),
         contentPadding: EdgeInsets.all(2.h),
       ),
-      style: TextStyle(color: Colors.grey[800]),
+      style: TextStyle(color: const Color.fromARGB(255, 105, 104, 104)),
     );
   }
 
@@ -261,7 +282,7 @@ class _LeavesFormBody extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+            style: TextStyle(fontSize: 16.sp, color: const Color.fromARGB(255, 162, 161, 161)),
           ),
           SizedBox(height: 1.h),
           DropdownButtonFormField<String>(

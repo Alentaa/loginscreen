@@ -18,8 +18,8 @@ class LeaveCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2),
-          border: Border.all(color: const Color(0xFFE0E0E0)),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color.fromARGB(255, 242, 239, 239)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

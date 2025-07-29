@@ -6,6 +6,7 @@ class leaved {
   final String leaveType;
   final String dayType;
   final String reason;
+  final String? attachmentPath;
 
   leaved({
     required this.employeeName,
@@ -15,5 +16,6 @@ class leaved {
     required this.leaveType,
     required this.dayType,
     required this.reason,
+     this.attachmentPath,
   });
 }

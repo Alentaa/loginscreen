@@ -1,44 +1,47 @@
+// lib/widgets/custom_calendar.dart
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class AttendanceCalendar extends StatefulWidget {
-  const AttendanceCalendar({super.key});
+class CustomCalendar extends StatelessWidget {
+  final DateTime focusedMonth;
+  final DateTime firstDay;
+  final DateTime lastDay;
+  final Map<DateTime, String> eventDays;
+  final Map<String, Color> statusColors;
+  final String headerTitle;
 
-  @override
-  State<AttendanceCalendar> createState() => _AttendanceCalendarState();
-}
-
-class _AttendanceCalendarState extends State<AttendanceCalendar> {
-  final DateTime _focusedDay = DateTime.utc(2025, 6, 15);
-
-  final Map<DateTime, String> eventDays = {
-    DateTime.utc(2025, 6, 6): 'late',
-    DateTime.utc(2025, 6, 9): 'present',
-    DateTime.utc(2025, 6, 10): 'present',
-    DateTime.utc(2025, 6, 16): 'present',
-    DateTime.utc(2025, 6, 17): 'present',
-    DateTime.utc(2025, 6, 24): 'absent',
-    DateTime.utc(2025, 6, 25): 'leave',
-  };
+  const CustomCalendar({
+    super.key,
+    required this.focusedMonth,
+    required this.firstDay,
+    required this.lastDay,
+    required this.eventDays,
+    required this.statusColors,
+    required this.headerTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Static header
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 254, 254),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
-              "June 2025",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              headerTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ),
+
+        // Calendar
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -53,9 +56,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             ],
           ),
           child: TableCalendar(
-            firstDay: DateTime.utc(2025, 6, 1),
-            lastDay: DateTime.utc(2025, 6, 30),
-            focusedDay: _focusedDay,
+            firstDay: firstDay,
+            lastDay: lastDay,
+            focusedDay: focusedMonth,
             calendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.sunday,
             headerVisible: false,
@@ -66,17 +69,13 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             ),
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, day, _) {
-                if (day.month != 6) return const SizedBox.shrink();
+                if (day.month != focusedMonth.month) return const SizedBox.shrink();
 
-                final type = eventDays[DateTime.utc(day.year, day.month, day.day)];
-                if (type == 'present') {
-                  return _buildCircle(day, Colors.green.withOpacity(0.3));
-                } else if (type == 'late') {
-                  return _buildCircle(day, Colors.blue.shade200);
-                } else if (type == 'absent') {
-                  return _buildCircle(day, Colors.red);
-                } else if (type == 'leave') {
-                  return _buildCircle(day, Colors.orange);
+                final status = eventDays[DateTime.utc(day.year, day.month, day.day)];
+                final color = statusColors[status];
+
+                if (color != null) {
+                  return _buildCircle(day, color);
                 }
 
                 return Center(child: Text('${day.day}'));

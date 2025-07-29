@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/model/faceverification_model.dart';
 import 'package:provider/provider.dart';
 import 'package:loginscreen/viewmodel/checkinprovider.dart';
@@ -76,7 +77,7 @@ class Checkin extends StatelessWidget {
       );
     }
 
-    provider.punchIn();
+    provider.punchIn(context);
 
     await Navigator.of(context).push(
       MaterialPageRoute(
@@ -137,7 +138,7 @@ class Checkin extends StatelessWidget {
       );
     }
 
-    provider.punchOut();
+    provider.punchOut(context);
 
     await Navigator.of(context).push(
       MaterialPageRoute(
@@ -257,7 +258,7 @@ class Checkin extends StatelessWidget {
                                 checkinProvider.isPunchedIn
                                     ? const Color(0xFF008CFF)
                                     : Colors.grey,
-                            foregroundColor: Colors.white,
+                            foregroundColor: AppColors.white,
                             minimumSize: const Size.fromHeight(44),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

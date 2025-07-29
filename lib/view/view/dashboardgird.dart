@@ -6,6 +6,7 @@ import 'package:loginscreen/view/view/holidayScreen.dart';
 import 'package:loginscreen/view/view/leave_dashboard.dart';
 import 'package:loginscreen/view/view/leavestatus.dart';
 import 'package:loginscreen/view/view/payslipscreen.dart';
+import 'package:loginscreen/view/view/reportScreen.dart';
 import 'package:loginscreen/widgets/payslipwidget.dart';
 
 class DashboardGrid extends StatelessWidget {
@@ -60,7 +61,14 @@ class DashboardGrid extends StatelessWidget {
             } else if (label == 'Payslip') {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) =>  const PayslipScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const PayslipScreen(month: 'June 2025'),
+                ),
+              );
+            } else if (label == 'Reports') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => ReportsScreen()),
               );
             }
           },

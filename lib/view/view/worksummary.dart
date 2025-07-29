@@ -78,7 +78,7 @@ class SummaryCard extends StatelessWidget {
               color: AppColors.white,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(item.icon, size: 24, color: AppColors.teal),
+            child: Icon(item.icon, size: 24, color: AppColors.blue),
           ),
           const SizedBox(width: 10),
           Expanded(

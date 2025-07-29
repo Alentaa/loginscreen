@@ -37,9 +37,9 @@ class _QRVerificationPageState extends State<QRVerificationPage>
 
   void _onQRScanSuccess(BuildContext context) {
     if (widget.isPunchIn) {
-      Provider.of<CheckinProvider>(context, listen: false).punchIn();
+      Provider.of<CheckinProvider>(context, listen: false).punchIn(context);
     } else {
-      Provider.of<CheckinProvider>(context, listen: false).punchOut();
+      Provider.of<CheckinProvider>(context, listen: false).punchOut(context);
     }
 
     Navigator.of(context).pushReplacement(

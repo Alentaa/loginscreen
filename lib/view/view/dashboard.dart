@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
 
 class DashCard extends StatelessWidget {
   final String label;
@@ -17,7 +18,7 @@ class DashCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFFEFEFEF)),
         borderRadius: BorderRadius.circular(14),
-        color: Colors.white,
+        color: AppColors.white,
         boxShadow: const [
           BoxShadow(
               color: Color(0x11000000), blurRadius: 4, offset: Offset(0, 2))
@@ -31,7 +32,7 @@ class DashCard extends StatelessWidget {
             height: 46,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: colour.withOpacity(0.15),
+              color: colour.withOpacity(0.35),
             ),
             child: Icon(icon, color: colour, size: 24),
           ),

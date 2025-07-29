@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:loginscreen/constants/app_colors.dart';
 import 'package:loginscreen/view/view/homescreen.dart';
+import 'package:loginscreen/view/view/notification.dart';
+import 'package:loginscreen/view/view/profilescreen.dart';
+import 'package:loginscreen/widgets/customCalendar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 class HolidayScreen extends StatefulWidget {
+  const HolidayScreen({super.key});
+
   @override
   State<HolidayScreen> createState() => _HolidayScreenState();
 }
@@ -13,26 +17,22 @@ class HolidayScreen extends StatefulWidget {
 class _HolidayScreenState extends State<HolidayScreen> {
   final TextEditingController _searchController = TextEditingController();
   DateTime _focusedDay = DateTime(2025, 6, 15);
-  DateTime? _selectedDay;
   int _currentIndex = 0;
 
-  final List<Map<String, dynamic>> holidays = [
-    {'date': '2025-06-03', 'color': Colors.green},
-    {'date': '2025-06-12', 'color': Colors.green},
-    {'date': '2025-06-16', 'color': Colors.blue},
-    {'date': '2025-06-17', 'color': Colors.blue},
-    {'date': '2025-06-20', 'color': Colors.yellow},
-    {'date': '2025-06-25', 'color': Colors.blue},
-  ];
+  final Map<DateTime, String> eventDays = {
+    DateTime.utc(2025, 6, 3): 'public',
+    DateTime.utc(2025, 6, 12): 'public',
+    DateTime.utc(2025, 6, 16): 'company',
+    DateTime.utc(2025, 6, 17): 'company',
+    DateTime.utc(2025, 6, 20): 'optional',
+    DateTime.utc(2025, 6, 25): 'company',
+  };
 
-  Color? getColorForDate(DateTime day) {
-    final formatted = DateFormat('yyyy-MM-dd').format(day);
-    final match = holidays.firstWhere(
-      (element) => element['date'] == formatted,
-      orElse: () => {},
-    );
-    return match['color'];
-  }
+  final Map<String, Color> statusColors = {
+    'public': Colors.green,
+    'optional': Colors.yellow,
+    'company': Colors.blue,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +53,16 @@ class _HolidayScreenState extends State<HolidayScreen> {
                     SizedBox(height: 2.h),
                     _buildLegend(),
                     SizedBox(height: 1.h),
-                    _buildBoxedCalendar(),
+                    CustomCalendar(
+                      focusedMonth: _focusedDay,
+                      firstDay: DateTime.utc(2025, 6, 1),
+                      lastDay: DateTime.utc(2025, 6, 30),
+                      eventDays: eventDays,
+                      statusColors: statusColors,
+                      headerTitle: 'June 2025',
+                    ),
                     SizedBox(height: 3.h),
                     _buildHolidayTable(),
-                    SizedBox(height: 6),
                   ],
                 ),
               ),
@@ -129,12 +135,31 @@ class _HolidayScreenState extends State<HolidayScreen> {
               ),
             ),
           ),
-          SizedBox(width: 2.w),
-          Icon(Icons.notifications_none, size: 22.sp),
-          SizedBox(width: 2.w),
-          CircleAvatar(
-            radius: 16,
-            backgroundImage: AssetImage('asset/profile.jpeg'),
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ),
+              );
+            },
+            child: const Icon(Icons.notifications_none, color: Colors.blue),
+          ),
+
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+            child: const CircleAvatar(
+              radius: 18,
+              backgroundImage: AssetImage('asset/profile.jpeg'),
+            ),
           ),
         ],
       ),
@@ -186,7 +211,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -228,97 +253,6 @@ class _HolidayScreenState extends State<HolidayScreen> {
     );
   }
 
-  Widget _buildBoxedCalendar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      padding: EdgeInsets.all(2.w),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 2.h, left: 2.w, bottom: 1.h),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'June 2025',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ),
-          TableCalendar(
-            firstDay: DateTime.utc(2025, 6, 1),
-            lastDay: DateTime.utc(2025, 6, 30),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: (selected, focused) {
-              setState(() {
-                _selectedDay = selected;
-                _focusedDay = focused;
-              });
-            },
-            headerVisible: false,
-            availableGestures: AvailableGestures.none,
-            daysOfWeekStyle: const DaysOfWeekStyle(
-              weekdayStyle: TextStyle(color: Colors.blue),
-              weekendStyle: TextStyle(color: Colors.blue),
-            ),
-            calendarBuilders: CalendarBuilders(
-              dowBuilder: (context, day) {
-                final text = DateFormat.E().format(day);
-                Color textColor =
-                    day.weekday == DateTime.sunday
-                        ? Colors.red
-                        : day.weekday == DateTime.saturday
-                        ? Colors.black
-                        : Colors.blue;
-                return Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              },
-              defaultBuilder: (context, day, _) {
-                if (day.month != 6) return const SizedBox.shrink();
-                final color = getColorForDate(day);
-                return Center(
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${day.day}',
-                      style: TextStyle(
-                        color:
-                            day.weekday == DateTime.sunday
-                                ? Colors.red
-                                : Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildHolidayTable() {
     List<String> dates = ["17 June", "15 August", "23 October"];
     List<List<String>> data = [
@@ -338,7 +272,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
           BoxShadow(
             color: Colors.grey.shade300,
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -382,10 +316,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
         style: TextStyle(
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
           fontSize: isHeader ? 16.sp : 15.sp,
-          color:
-              isHeader
-                  ? const Color.fromARGB(255, 117, 179, 241)
-                  : Colors.black,
+          color: isHeader ? AppColors.lightblue : Colors.black,
         ),
       ),
     );
@@ -395,7 +326,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
 class Legend extends StatelessWidget {
   final Color color;
   final String label;
-  const Legend({required this.color, required this.label});
+  const Legend({super.key, required this.color, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -404,11 +335,7 @@ class Legend extends StatelessWidget {
         Container(
           width: 14,
           height: 14,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(0),
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.rectangle),
         ),
         SizedBox(width: 1.w),
         Text(label),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/constants/app_colors.dart';
+import 'package:loginscreen/view/view/notification.dart';
+import 'package:loginscreen/view/view/profilescreen.dart';
 import 'package:loginscreen/viewmodel/leavedashboard.dart';
 import 'package:loginscreen/widgets/leavebar.dart';
 import 'package:loginscreen/widgets/leavecard.dart';
@@ -17,7 +20,7 @@ class LeaveDashboardScreen extends StatelessWidget {
       child: Consumer<LeaveDashboardViewModel>(
         builder:
             (context, viewModel, _) => Scaffold(
-              backgroundColor: const Color(0xFFF4F6F8),
+              backgroundColor: AppColors.white,
               body: SafeArea(
                 child: Column(
                   children: [
@@ -65,7 +68,7 @@ class LeaveDashboardScreen extends StatelessWidget {
                     prefixIcon: const Icon(Icons.search),
                     hintText: 'Search',
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: AppColors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,
@@ -76,7 +79,7 @@ class LeaveDashboardScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     constraints: const BoxConstraints(maxHeight: 150),
@@ -102,11 +105,30 @@ class LeaveDashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          const Icon(Icons.notifications_none, color: Colors.blue),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ),
+              );
+            },
+            child: const Icon(Icons.notifications_none, color: Colors.blue),
+          ),
+
           const SizedBox(width: 10),
-          const CircleAvatar(
-            radius: 18,
-            backgroundImage: AssetImage('asset/profile.jpeg'),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+            child: const CircleAvatar(
+              radius: 18,
+              backgroundImage: AssetImage('asset/profile.jpeg'),
+            ),
           ),
         ],
       ),

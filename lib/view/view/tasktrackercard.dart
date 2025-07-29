@@ -55,7 +55,7 @@ class TaskTrackerCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Radio(value: value, groupValue: groupValue, onChanged: (_) {}),
-        Text(value, style: const TextStyle(fontSize: 13)),
+        Text(value, style: const TextStyle(fontSize: 10)),
       ],
     );
   }
@@ -121,13 +121,13 @@ class TaskTrackerCard extends StatelessWidget {
               Row(
                 children: [
                   CircularPercentIndicator(
-                    radius: 28.0,
+                    radius: 20.0,
                     lineWidth: 5.0,
                     percent: progress,
                     center: Text(
                       "$percent%",
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -146,11 +146,11 @@ class TaskTrackerCard extends StatelessWidget {
                             color: Colors.orange,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         Row(
                           children: const [
                             Icon(Icons.edit_note, size: 14),
-                            SizedBox(width: 4),
+                            SizedBox(width: 9),
                             Text(
                               "Assigned By (optional)",
                               style: TextStyle(fontSize: 12),
@@ -162,7 +162,7 @@ class TaskTrackerCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
               // Priority
               Row(
@@ -180,7 +180,7 @@ class TaskTrackerCard extends StatelessWidget {
 
               // Actions
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,spacing: 13,
                 children: [
                   _actionRadio("Start", selectedAction),
                   _actionRadio("Update", selectedAction),

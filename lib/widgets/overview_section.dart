@@ -8,11 +8,11 @@ class OverviewSection extends StatelessWidget {
 
   Widget buildCard(String title, String value, Color color) {
     return Container(
-      width: 20.w,
+      width: 22.w,
       padding: EdgeInsets.symmetric(vertical: 2.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 5)],
       ),
       child: Column(
@@ -36,16 +36,28 @@ class OverviewSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = Provider.of<AttendanceViewModel>(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Overview\nTotal Days : ${vm.totalDays}",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.sp,
-          ),
-        ),
+    return
+  Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      "Overview",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18.sp,
+        color: Colors.black,
+      ),
+    ),
+    SizedBox(height: 0.1.h), // Add some spacing if needed
+    Text(
+      "Total Days: ${vm.totalDays}",
+      style: TextStyle(
+        fontSize: 16.sp,
+        color: Colors.grey[800],
+      ),
+    ),
+  
+
         SizedBox(height: 1.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +68,7 @@ class OverviewSection extends StatelessWidget {
             buildCard("Late", vm.lateCount.toString().padLeft(2, '0'), Colors.blue),
           ],
         ),
-      ],
+  ]
     );
   }
 }

@@ -79,6 +79,13 @@ flutter:
     - asset/ziya academy logo.jpg
     - asset/logo withoutbackground.jpg
     - asset/logo_withoutbackground-removebg-preview.png
+    - asset/working image.jpg
+    - asset/working on lap.jpeg
+    - asset/working_image-removebg-preview.png
+    - asset/hands on laptop.jpg
+    - asset/woman-typing-writing-windows.jpg
+    - asset/istockphoto.jpg
+    - asset/laptop photo.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
